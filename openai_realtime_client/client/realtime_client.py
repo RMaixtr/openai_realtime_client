@@ -254,7 +254,9 @@ class RealtimeClient:
         if self._current_item_id:
             event = {
                 "type": "conversation.item.truncate",
-                "item_id": self._current_item_id
+                "item_id": self._current_item_id,
+                "content_index": 0,
+                "audio_end_ms": 1500
             }
             await self.ws.send(json.dumps(event))
 
@@ -369,6 +371,9 @@ class RealtimeClient:
 
                 elif event_type in self.extra_event_handlers:
                     self.extra_event_handlers[event_type](event)
+                
+                elif event_type == "response.content_part.done":
+                    print(event.get("part").get("transcript"))
 
         except websockets.exceptions.ConnectionClosed:
             print("Connection closed")

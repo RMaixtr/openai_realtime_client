@@ -141,7 +141,7 @@ class AudioHandler:
                 await client.stream_audio(data)
             except Exception as e:
                 print(f"Error streaming: {e}")
-                break
+                continue
             await asyncio.sleep(0.01)
 
     def stop_streaming(self):
